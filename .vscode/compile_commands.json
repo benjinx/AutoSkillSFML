@@ -1,0 +1,7 @@
+[
+{
+  "directory": "D:/Documents/Repos/AutoSkill/build",
+  "command": "C:\\PROGRA~2\\MICROS~1\\2019\\COMMUN~1\\VC\\Tools\\MSVC\\1428~1.299\\bin\\Hostx64\\x64\\cl.exe  /nologo /TP -DSFML_STATIC -D_CRT_SECURE_NO_WARNINGS -ID:\\Documents\\Repos\\AutoSkill\\src -ID:\\Documents\\Repos\\AutoSkill\\build\\src -ID:\\Documents\\Repos\\AutoSkill\\build\\ThirdParty\\SFML\\include /DWIN32 /D_WINDOWS /GR  /Zi /Ob0 /Od /RTC1 -MDd /std:c++latest /utf-8 /MP /wd4068 /EHsc- -std:c++latest /FoCMakeFiles\\AutoSkill.dir\\src\\main.cpp.obj /FdTARGET_COMPILE_PDB /FS -c D:\\Documents\\Repos\\AutoSkill\\src\\main.cpp",
+  "file": "D:\\Documents\\Repos\\AutoSkill\\src\\main.cpp"
+}
+]
