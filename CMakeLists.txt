@@ -38,34 +38,6 @@ OPTION(
 )
 
 ###
-### Modules and Dependencies
-###
-
-SET(
-    MODULES 
-    "All" 
-    CACHE STRING
-    "Semicolon-separated list of required modules, use 'All' to build all modules"
-)
-
-# Generate list of required third party dependencies
-SET(REQUIRED_DEPENDENCIES
-    "SFML"
-)
-
-IF("SFML" IN_LIST REQUIRED_MODULES)
-    LIST(APPEND REQUIRED_MODULES "SFML")
-ENDIF()
-
-
-LIST(REMOVE_DUPLICATES REQUIRED_MODULES)
-LIST(REMOVE_DUPLICATES REQUIRED_DEPENDENCIES)
-
-MESSAGE(STATUS "Available modules: ${AVAILABLE_MODULES}")
-MESSAGE(STATUS "Building Modules: ${REQUIRED_MODULES}")
-MESSAGE(STATUS "Required Dependencies: ${REQUIRED_DEPENDENCIES}")
-
-###
 ### Third Party Dependencies
 ###
 
@@ -77,16 +49,11 @@ IF(BUILD_THIRDPARTY)
 
     # Set _ROOT variables for config-based packages
     SET(SFML_ROOT  ${THIRDPARTY_BINARY_DIR}/SFML)
-
-    # CMake refuses to quote the list when passing it on the command line, and `;` will
-    # split the command in half, so we have to switch them to a different separator
-    STRING(REPLACE ";" ":" _tmp "${REQUIRED_DEPENDENCIES}")
     
     EXECUTE_PROCESS(
         COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" 
             -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
             -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
-            -DREQUIRED_DEPENDENCIES=${_tmp}
             ${THIRDPARTY_SOURCE_DIR}
             WORKING_DIRECTORY ${THIRDPARTY_BINARY_DIR}
         RESULT_VARIABLE _result
@@ -156,7 +123,6 @@ TARGET_COMPILE_DEFINITIONS(
     PUBLIC
         # Disable VS "not secure" warnings
         $<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
-        SFML_STATIC
 )
 
 TARGET_COMPILE_OPTIONS(
@@ -182,15 +148,10 @@ SET_TARGET_PROPERTIES(
         CXX_EXTENSIONS OFF
 )
 
-FILE(RELATIVE_PATH folder ${CMAKE_SOURCE_DIR} "${CMAKE_CURRENT_SOURCE_DIR}/..")
-SET_TARGET_PROPERTIES(
-    ${PROJECT_NAME}
-    PROPERTIES
-        FOLDER "${folder}"
-)
-
 TARGET_LINK_LIBRARIES(
     ${PROJECT_NAME}
     PRIVATE
-        SFML::SFML
+        sfml-system
+        sfml-window
+        sfml-graphics
 )
